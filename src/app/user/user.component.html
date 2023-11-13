@@ -1,0 +1,38 @@
+<div>
+  <label>
+    Username:
+    <input type="text" [formControl]="username">
+  </label>
+  <label>
+    email:
+    <input type="text" [formControl]="email">
+  </label>
+  <label>
+    password:
+    <input type="text" [formControl]="password">
+  </label>
+  <div [formGroup]="adress">
+    <h3>Adresse</h3>
+    <label>
+      Street:
+      <input type="text" formControlName="street">
+    </label>
+    <label>
+      Code postale:
+      <input type="text" formControlName="postCode">
+    </label>
+    <label>
+      City:
+      <input type="text" formControlName="city">
+    </label>
+  </div>
+</div>
+<div>
+  <p>{{user?.username}}</p>
+  <p>{{user?.email}}</p>
+  <p>{{user?.password}}</p>
+  <p>{{user?.adress?.city}}</p>
+  <p>{{user?.adress?.postCode}}</p>
+  <p>{{user?.adress?.city}}</p>
+</div>
+<button (click)="onSubmit()">Enregistrer</button>
