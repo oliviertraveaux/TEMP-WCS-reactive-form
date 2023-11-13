@@ -1,22 +1,23 @@
-import {FormControl, FormGroup, ɵFormGroupValue, ɵTypedOrUntyped} from "@angular/forms";
 
 export class User {
   constructor(
-    public username: string | null,
-    public email: string | null,
-    public password: string | null,
-    public adress: {
-      street: string | null | undefined;
-      postCode: string | null | undefined
-      city: string | null | undefined;
-    },
+    public username: string,
+    public credentials: Credentials,
+    public address: Address
   ) {}
 }
 
-export class Adress {
+export class Address {
   constructor(
-    public street: string | null,
-    public postCode: string | null,
-    public city: string | null
+    public street: string,
+    public postCode: string,
+    public city: string
+  ) {}
+}
+
+export class Credentials {
+  constructor(
+    public email: string,
+    public password: string,
   ) {}
 }

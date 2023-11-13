@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {User} from "../model/User";
 
 @Component({
@@ -12,30 +12,45 @@ import {User} from "../model/User";
 })
 
 export class UserComponent {
-  user?: User | null;
-  username = new FormControl('')
-  email = new FormControl('')
-  password = new FormControl('')
-  adress = new FormGroup({
-    street: new FormControl(''),
-    postCode: new FormControl(''),
-    city: new FormControl('')
+  private formBuilder = inject(FormBuilder)
+
+  user!: User;
+  public userForm = this.formBuilder.group({
+    username: ['', Validators.required],
+    credentials: this.formBuilder.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required],
+    }),
+    address: this.formBuilder.group({
+      street: ['', Validators.required],
+      postCode: ['', Validators.required],
+      city: ['', Validators.required],
+    }),
   })
 
   onSubmit() {
-    const street = this.adress.get('street')?.value;
-    const postCode = this.adress.get('postCode')?.value;
-    const city = this.adress.get('city')?.value;
+    const { username, credentials, address } = this.userForm.value;
+
+    const credentialsEmail = credentials?.email;
+    const credentialsPassword = credentials?.password;
+
+    const addressStreet = address?.street;
+    const addressPostCode = address?.postCode;
+    const addressCity = address?.city;
 
     this.user = new User(
-      this.username.value,
-      this.email.value,
-      this.password.value,
+      username!,
       {
-        street,
-        postCode,
-        city
+        email: credentialsEmail!,
+        password: credentialsPassword!
+      },
+      {
+        street: addressStreet!,
+        postCode: addressPostCode!,
+        city: addressCity!
       }
     );
+    console.log(this.user);
   }
+
 }
